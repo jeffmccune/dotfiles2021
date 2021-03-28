@@ -1,0 +1,11 @@
+{
+  "ext": {
+    "shell": {
+      "colorscheme": "solarized",
+      "theme": "nomode"
+    },
+    "tmux": {
+      "colorscheme": "solarized"
+    }
+  }
+}

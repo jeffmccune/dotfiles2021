@@ -40,8 +40,20 @@ if [[ -e "${powerlineconf}" ]]; then
   (cd ~ && ln -sf "${powerlineconf}" .tmux.conf.powerline)
 fi
 
-ln -sf "${DOT2021}/git/gitconfig" .gitconfig
-ln -sf "${DOT2021}/zsh/zshenv" .zshenv
+ln_sf() {
+  local target="$1"
+  local path="$2"
+  if [[ -d "${path}" ]]; then
+    rm -rf "${path%/}"
+  fi
+  mkdir -p "$(dirname "${path%/}")"
+  ln -sf "${target%/}" "${path%/}"
+}
+
+ln_sf "${DOT2021}/git/gitconfig" .gitconfig
+ln_sf "${DOT2021}/zsh/zshenv" .zshenv
+ln_sf "${DOT2021}/tmux/tmux.conf" .tmux.conf
+ln_sf "${DOT2021}/config/powerline" .config/powerline
 
 echo "All done!  Dotfiles installed in ${DOT2021}"
 echo "Log out and back in to activate the shell."

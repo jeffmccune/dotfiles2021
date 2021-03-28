@@ -61,8 +61,8 @@ fi
 # ~/.pydotfiles/bin/python3 -m pip install powerline-status
 # See: ~/.tmux.conf.powerline
 if [[ -z "${POWERLINE_CONFIG_COMMAND}" ]]; then
-  if [[ -x "${HOME}/.pydotfiles/bin/powerline-config" ]]; then
-    export POWERLINE_CONFIG_COMMAND="${HOME}/.pydotfiles/bin/powerline-config"
+  if [[ -x "${HOME}/.dotfiles2021-python/bin/powerline-config" ]]; then
+    export POWERLINE_CONFIG_COMMAND="${HOME}/.dotfiles2021-python/bin/powerline-config"
   fi
 fi
 
