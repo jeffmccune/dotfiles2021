@@ -1,24 +1,25 @@
+try_source() {
+  if [[ -r "$1" ]]; then
+    source "$1"
+  fi
+}
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/dotfiles/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+try_source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 
-# Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
+# Prezto
+try_source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 
 : "${HOSTNAME:=$(hostname)}"
+: "${UNAME:=$(uname)}"
+: "${ARCH:=$(uname -m)}"
 
-# JJM Specific Stuff
+# Customization
 HISTSIZE=7000                # How many lines of history to keep in memory
-# Where to save history to the filesystem
 HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history.${HOSTNAME%%.*}"
-# Number of history entries to save to disk
 SAVEHIST=9999
-# Erase duplicates in the history file
 HISTDUP=erase
 
 # Appends every command to the history file once it is executed
@@ -36,9 +37,6 @@ setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_BEEP
 
-: "${UNAME:=$(uname)}"
-: "${ARCH:=$(uname -m)}"
-
 # nvim.appimage --appimage-extract
 # ~/apps/ is a syncthing directory on development environment instances
 if [[ -d "${HOME}/apps/${UNAME}/${ARCH}" ]]; then
@@ -52,9 +50,9 @@ fi
 # python3 -m venv ~/.pydotfiles
 # ~/.pydotfiles/bin/python3 -m pip install --upgrade pip setuptools wheel
 # ~/.pydotfiles/bin/python3 -m pip install powerline-status
+# See: ~/.tmux.conf.powerline
 if [[ -z "${POWERLINE_CONFIG_COMMAND}" ]]; then
-  if [[ -x ~/.pydotfiles/bin/powerline-config ]]; then
-    # tmux.conf.powerline picks up this environment variable
+  if [[ -x "${HOME}/.pydotfiles/bin/powerline-config" ]]; then
     export POWERLINE_CONFIG_COMMAND="${HOME}/.pydotfiles/bin/powerline-config"
   fi
 fi
@@ -145,7 +143,7 @@ function git_branch() {
 
 ### Direnv
 if type direnv > /dev/null; then
-  eval "$(direnv hook ${SHELL##*/})"
+  eval "$(direnv hook zsh)"
 else
   echo "Skipping direnv initialization (direnv not in PATH)" >&2
 fi
@@ -162,9 +160,6 @@ else
   export PATH="${GOPATH}/bin:$PATH"
 fi
 
-if [[ -e "${HOME}/.iterm2_shell_integration.zsh" ]]; then
-  source "${HOME}/.iterm2_shell_integration.zsh"
-fi
 
 case "$UNAME" in
   Darwin )
@@ -174,49 +169,37 @@ case "$UNAME" in
     ;;
 esac
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f "${HOME}/google-cloud-sdk/path.zsh.inc" ]; then . "${HOME}/google-cloud-sdk/path.zsh.inc"; fi
 
-# The next line enables shell command completion for gcloud.
-if [[ -f "${HOME}/google-cloud-sdk/completion.zsh.inc" ]]; then
-  source "${HOME}/google-cloud-sdk/completion.zsh.inc"
-fi
+try_source "${HOME}/.iterm2_shell_integration.zsh"
+try_source "${HOME}/google-cloud-sdk/path.zsh.inc"
+try_source "${HOME}/google-cloud-sdk/completion.zsh.inc"
+try_source "${ZDOTDIR}/powerlevel10k/powerlevel10k.zsh-theme"
+try_source "${ZDOTDIR:-$HOME}/.p10k.zsh"
 
-# To customize prompt, run `p10k configure` or edit .p10k.zsh.
-[[ ! -f "${ZDOTDIR:-$HOME}/.p10k.zsh" ]] || source "${ZDOTDIR:-$HOME}/.p10k.zsh"
 
 # Kubectl
-alias k=kubectl
 if type kubectl > /dev/null; then
   source <(kubectl completion zsh)
   complete -F __start_kubectl k
+fi
+alias k=kubectl
+
+# Pyenv
+if [[ -d "${HOME}/.pyenv" ]]; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  # pyenv init
+  if command -v pyenv 1>/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+  fi
+fi
+
+# Virtualenv
+if which pyenv-virtualenv-init > /dev/null; then
+  eval "$(pyenv virtualenv-init -)"
 fi
 
 # Set vi mode.  This needs to be late to take effect.
 bindkey -v
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$("${HOME}/miniconda3/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "${HOME}/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "${HOME}/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="${HOME}/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
-# pyenv setup
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-# pyenv init
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
-
-# Virtualenv
-if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+unfunction try_source
