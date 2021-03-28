@@ -1,0 +1,30 @@
+[user]
+  name = Jeff McCune
+  email = jeff@openinfrastructure.co
+[color]
+  ui = auto
+  interactive = auto
+  status = auto
+[pager]
+  status = true
+  show-branch = true
+[alias]
+  lg = "log --pretty=format:'%C(yellow)%h%C(reset) %s %C(cyan)%cr%C(reset) %C(blue)%an%C(reset) %C(green)%d%C(reset)' --graph --date-order"
+  st = status
+  ci = commit
+  co = checkout
+  fpull = pull --ff --ff-only
+  fmerge = merge --ff --ff-only
+  mc = merge --no-ff --log
+  cm = "log -1 --pretty=%B"
+
+[core]
+  autocrlf = false
+  safecrlf = true
+  pager = less -XF
+[merge]
+  log = true
+[push]
+  default = current
+[http]
+  cookiefile = ~/.gitcookies
