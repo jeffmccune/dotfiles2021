@@ -5,14 +5,27 @@ set -eu
 cd "$HOME"
 
 if [[ -z "${DOT2021:-}" ]]; then
-  if [[ -d "${HOME}/dotfiles2021" ]]; then
-    DOT2021="${HOME}/dotfiles2021"
+  if [[ -d "${HOME}/.dotfiles2021" ]]; then
+    DOT2021="${HOME}/.dotfiles2021"
   elif [[ -d "${HOME}/dotfiles/2021" ]]; then
     DOT2021="${HOME}/dotfiles/2021"
   else
     echo "Error: Could not find dotfiles" >&2
     exit 1
   fi
+fi
+
+# Use a python3 venv for shell and neovim integrations.  This is much better
+# than installing bindings in tons of different environments.
+if type python3 > /dev/null; then
+  if ! [[ -d "${DOT2021}-python" ]]; then
+    python3 -m venv "${DOT2021}-python"
+    "${DOT2021}-python/bin/python3" -m pip install --upgrade pip wheel setuptools
+    "${DOT2021}-python/bin/python3" -m pip install --upgrade powerline-status pynvim yapf
+  fi
+else
+  echo "Warning: python3 is not in PATH, skipping install of ~/.dotfiles2021-python"
+  echo "powerline-status and nvim will not work correctly without python3 bindings"
 fi
 
 ln -sf "${DOT2021}/git/gitconfig" .gitconfig

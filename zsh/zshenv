@@ -1,7 +1,7 @@
 # Determine where .zshrc is loaded from
-if [[ -d "${HOME}/dotfiles2021/zsh/zdotdir" ]]; then
+if [[ -d "${HOME}/.dotfiles2021/zsh/zdotdir" ]]; then
   # This location is intended for servers.
-  export ZDOTDIR="${HOME}/dotfiles2021/zsh/zdotdir"
+  export ZDOTDIR="${HOME}/.dotfiles2021/zsh/zdotdir"
 elif [[ -d "${HOME}/dotfiles/2021/zsh/zdotdir" ]]; then
   # This location is intended for syncthing.
   export ZDOTDIR="${HOME}/dotfiles/2021/zsh/zdotdir"
