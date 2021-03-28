@@ -2,6 +2,18 @@
 #
 set -eu
 
-cd $HOME
+cd "$HOME"
 
-ln -sf ${HOME}/dotfiles2021/git/gitconfig .gitconfig
+if [[ -z "${DOT2021:-}" ]]; then
+  if [[ -d "${HOME}/dotfiles2021" ]]; then
+    DOT2021="${HOME}/dotfiles2021"
+  elif [[ -d "${HOME}/dotfiles/2021" ]]; then
+    DOT2021="${HOME}/dotfiles/2021"
+  else
+    echo "Error: Could not find dotfiles" >&2
+    exit 1
+  fi
+fi
+
+ln -sf "${DOT2021}/git/gitconfig" .gitconfig
+ln -sf "${DOT2021}/zsh/zshenv" .zshenv
