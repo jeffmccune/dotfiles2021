@@ -46,6 +46,15 @@ if [[ -d "${HOME}/apps/${UNAME}/${ARCH}" ]]; then
   fi
 fi
 
+# ~/.dotfiles2021-apps is the same intent, but not synced and created by the
+# setup_server script.
+if [[ -d "${HOME}/.dotfiles2021-apps/${UNAME}/${ARCH}" ]]; then
+  export PATH="${HOME}/.dotfiles2021-apps/${UNAME}/${ARCH}:${PATH}"
+  if [[ -d "${HOME}/.dotfiles2021-apps/${UNAME}/${ARCH}/squashfs-root/usr/bin" ]]; then
+    export PATH="${HOME}/.dotfiles2021-apps/${UNAME}/${ARCH}/squashfs-root/usr/bin:${PATH}"
+  fi
+fi
+
 # Powerline Status should be installed using:
 # python3 -m venv ~/.pydotfiles
 # ~/.pydotfiles/bin/python3 -m pip install --upgrade pip setuptools wheel
@@ -169,13 +178,11 @@ case "$UNAME" in
     ;;
 esac
 
-
 try_source "${HOME}/.iterm2_shell_integration.zsh"
 try_source "${HOME}/google-cloud-sdk/path.zsh.inc"
 try_source "${HOME}/google-cloud-sdk/completion.zsh.inc"
 try_source "${ZDOTDIR}/powerlevel10k/powerlevel10k.zsh-theme"
 try_source "${ZDOTDIR:-$HOME}/.p10k.zsh"
-
 
 # Kubectl
 if type kubectl > /dev/null; then

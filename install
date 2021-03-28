@@ -34,5 +34,14 @@ else
   echo "powerline-status and nvim will not work correctly without python3 bindings"
 fi
 
+# Powerline
+powerlineconf="$(find "${DOT2021}-python" -name powerline.conf)"
+if [[ -e "${powerlineconf}" ]]; then
+  (cd ~ && ln -sf "${powerlineconf}" .tmux.conf.powerline)
+fi
+
 ln -sf "${DOT2021}/git/gitconfig" .gitconfig
 ln -sf "${DOT2021}/zsh/zshenv" .zshenv
+
+echo "All done!  Dotfiles installed in ${DOT2021}"
+echo "Log out and back in to activate the shell."
