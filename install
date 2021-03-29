@@ -56,11 +56,10 @@ ln_sf "${DOT2021}/tmux/tmux.conf" .tmux.conf
 ln_sf "${DOT2021}/config/powerline" .config/powerline
 ln_sf "${DOT2021}/config/direnv/direnvrc" .config/direnv/direnvrc
 # Vim and NeoVim
-ln_sf "${DOT2021}/config/nvim/UltiSnips" .config/nvim/UltiSnips
+ln_sf "${DOT2021}/config/nvim/init.vim" .config/nvim/init.vim
 ln_sf "${DOT2021}/config/nvim/autoload" .config/nvim/autoload
 ln_sf "${DOT2021}/config/nvim/coc-settings.json" .config/nvim/coc-settings.json
-ln_sf "${DOT2021}/config/nvim/init.vim" .config/nvim/init.vim
-ln_sf "${DOT2021}/config/nvim/init.vim" .config/nvim/init.vim
+ln_sf "${DOT2021}/config/nvim/UltiSnips" .config/nvim/UltiSnips
 ln_sf "${DOT2021}/vim/vimrc" .vimrc
 ln_sf "${DOT2021}/vim/vimrc.settings" .vimrc.settings
 ln_sf "${DOT2021}/vim/vimrc.before.local" .vimrc.before.local

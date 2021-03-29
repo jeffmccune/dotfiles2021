@@ -1,0 +1,10 @@
+#! /bin/bash
+#
+# The intent is to allow allow neovim to have fully qualified paths to node
+# tools, like node, npm, etc...  Without having to have node in the PATH.
+# To add a tool, symlink it to this executable.
+name="$(basename $0)"
+export ASDF_DATA_DIR="${HOME}/.dotfiles2021-asdf"
+source "${ASDF_DATA_DIR}/asdf.sh"
+asdf shell nodejs 15.12.0
+exec "${name}" "$@"

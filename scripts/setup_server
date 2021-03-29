@@ -7,7 +7,8 @@
 : "${UNAME:=$(uname)}"
 : "${ARCH:=$(uname -m)}"
 
-sudo apt install -y curl zsh tmux direnv ripgrep python3 python3-venv
+# GnuPG is necessary to install nodejs through asdf
+sudo apt install -y curl zsh tmux direnv ripgrep python3 python3-venv gnupg
 
 mkdir -p "${HOME}/.dotfiles2021-apps/${UNAME}/${ARCH}"
 cd "${HOME}/.dotfiles2021-apps/${UNAME}/${ARCH}" || exit 1
@@ -16,14 +17,13 @@ chmod a+x nvim.appimage
 ./nvim.appimage --appimage-extract > /dev/null
 rm -f nvim.appimage
 
-# Install node for coc-vim
-export NVM_DIR="${HOME}/.dotfiles2021-node"
-mkdir -p "${NVM_DIR}"
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
-source "${NVM_DIR}/nvm.sh"
-# Use this node version with neovim
-# let g:coc_node_path = "$HOME/.dotfiles2021-node/versions/node/v15.12.0/bin/node"
-nvm install node 15.12.0
+# Install asdf to install node for neovim coc.vim
+export ASDF_DATA_DIR="${HOME}/.dotfiles2021-asdf"
+git clone https://github.com/asdf-vm/asdf.git "${ASDF_DATA_DIR}" --branch v0.8.0 --depth=1
+source "${ASDF_DATA_DIR}/asdf.sh"
+asdf plugin add nodejs
+# nodejs install requires gnupg
+asdf install nodejs 15.12.0
 
 # Install golang (Takes 350 MiB so commented out)
 # if ! [[ -d ~/go ]]; then
