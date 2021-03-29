@@ -1,0 +1,14 @@
+" Personal stuff
+" vim +BundleInstall! +BundleClean +q
+" Bundle 'jeffmccune/vim-alignfats'
+Bundle 'jeffmccune/vim-puppet'
+Bundle 'PProvost/vim-ps1'
+Bundle 'junegunn/vim-easy-align'
+Bundle 'hashivim/vim-terraform'
+Bundle 'markcornick/vim-bats'
+Bundle 'gcmt/taboo.vim'
+Bundle 'mileszs/ack.vim'
+Bundle 'fatih/vim-go'
+" Vim plugin for colouring the text background based on git data
+" 2017-12-11 - Horribly breaks VIM.  Slows way down.
+" Bundle 'FriedSock/smeargle'

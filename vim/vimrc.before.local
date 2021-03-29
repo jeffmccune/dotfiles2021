@@ -1,0 +1,5 @@
+let g:airline_powerline_fonts=1
+" Make ; the same as :
+nnoremap ; :
+" Remap the leader as early as possible
+let mapleader = ","

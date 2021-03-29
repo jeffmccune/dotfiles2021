@@ -1,0 +1,16 @@
+priority -50
+
+#
+# Snippets
+#
+
+snippet vari "variable <name> { ... }"
+variable "${1:variable_name}" {
+	description = "${2:Some variable}"
+	type        = ${3:string}
+}$0
+endsnippet
+
+snippet def "default = ..."
+default     = $0
+endsnippet

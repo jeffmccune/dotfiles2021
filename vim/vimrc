@@ -1,0 +1,69 @@
+" Vim Plug start
+" Install using:
+" :PlugInstall
+" :UpdateRemotePlugins
+
+" This needs to be set before polyglot loads
+let g:polyglot_disabled = []
+
+call plug#begin()
+
+" Jeff Verified
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+" Plug 'jeffmccune/vim-colors-solarized'
+Plug 'overcache/NeoSolarized'
+
+" Nerdtree is disabled to improve load time: Basic shell script:
+" results in 22.708 increase in load time.
+" https://github.com/bchretien/vim-profiler
+" Plug 'scrooloose/nerdtree'
+" Plug 'airblade/vim-gitgutter' " 12.582
+
+" Handle surrounding pairs, e.g. cs'" etc...
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'godlygeek/tabular'
+" Fuzzy Finder, replacement for ctrl-p
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
+" Plug 'bling/vim-airline'
+Plug 'hwartig/vim-seeing-is-believing'
+"Plug 'morhetz/gruvbox'
+" Plug 'lifepillar/vim-solarized8'
+Plug 'rodjek/vim-puppet'
+" Golang
+Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
+
+Plug 'tpope/vim-commentary'
+Plug 'dense-analysis/ale'
+
+" Ack
+Plug 'mileszs/ack.vim'
+
+" Snippets
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
+" Case preservation using :%S/badjob/goodjob/g
+Plug 'tpope/vim-abolish'
+
+" 2020-06-11 Completion Improvements
+" 2020-10-07 NOTE, coc may make ncm2 irrelevant
+" Provides shellcheck via https://github.com/iamcco/diagnostic-languageserver
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc-snippets'
+" Then: :CocInstall coc-diagnostic to get shellcheck
+
+" Rename tabs for better organization
+" https://github.com/gcmt/taboo.vim
+Plug 'gcmt/taboo.vim'
+
+" Load polyglot last
+" See: https://github.com/fatih/vim-go/issues/2262
+Plug 'sheerun/vim-polyglot'
+call plug#end()
+
+:so ~/.vimrc.settings
+let g:go_version_warning = 0

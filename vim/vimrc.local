@@ -1,0 +1,74 @@
+" Install vim for spf13 using Homebrew, using these two:
+" brew install macvim --with-lua
+" brew install vim --with-lua
+
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
+set textwidth=80
+" Fix for neoexpand as per
+" https://github.com/spf13/spf13-vim/issues/819#issuecomment-145378767
+inoremap <expr><CR> neosnippet#expandable() ? neosnippet#mappings#expand_or_jump_impl() : pumvisible() ? neocomplete#close_popup() : "\<CR>"
+set mouse=
+set fdm=indent
+
+" Fix E353: Nothing in register *
+set clipboard=
+
+" Fix solarized colors.  spf13 overrides the default behavior of solarized in
+" ~/.vimrc and it gets it all wrong for terminals with the solarized palette.
+" Here, we set everything back to the solarized defaults.
+let g:solarized_termcolors=16
+let g:solarized_termtrans=0
+let g:solarized_degrade=0
+let g:solarized_bold=1
+let g:solarized_underline=1
+let g:solarized_italic=1
+let g:solarized_contrast="normal"
+let g:solarized_visibility="normal"
+color solarized
+" Fix indent guide colors to use solarized colors
+" https://github.com/nathanaelkane/vim-indent-guides#setting-custom-indent-colors
+" For 16 colors term bg colors, base03 => 8, base02 => 0, base01 => 10
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#073642 ctermbg=0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#073642 ctermbg=0
+" Fix Git indicator colors in gutter.
+" See: https://github.com/mhinz/vim-signify/issues/128
+autocmd VimEnter,Colorscheme * :hi SignColumn guibg=#073642  ctermbg=0
+
+" Ignore certain folders in Nerd Tree
+let NERDTreeIgnore=['\.vagrant$', '\.bundle$', '\.git$', '\~$']
+" Ignore certain folders in ctrl-p
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux"
+" Use .git and stuff as a root marker for ctrl-p.  This fails for nested
+" projects.
+let g:ctrlp_working_path_mode = 'ra'
+unlet g:ctrlp_user_command
+let g:ctrlp_user_command = ['.git', 'find -E %s \! \( -regex ".*/\.(git|bundle|vagrant|hg|terraform)" -prune \) -a -type f']
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn|bundle|vagrant|terraform)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
+
+" Macros
+let @e = '^f:wv$h"sdiDEC::GPG["spA!'
+let @y = '^f=r:a ^'
+let @u = 'f:w"sDa"p^'
+
+" Tabular first = only, :Tabularize 1= and without spaces: :Tabularize 1==
+autocmd VimEnter * AddTabularPattern 1=    /^[^=]*\zs=
+autocmd VimEnter * AddTabularPattern 1==   /^[^=]*\zs=/r0c0l0
+
+" Make escape in insert mode easier.
+imap jk <Esc>
+imap kj <Esc>
+
+" strip all trailing whitespace in the current file
+nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+" Align spaces
+nnoremap <leader>a :Tabularize 1=
+nnoremap <leader>= :Tabularize 1==
