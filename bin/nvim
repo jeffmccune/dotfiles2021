@@ -1,0 +1,29 @@
+#! /bin/bash
+# Neovim shim at ${DOTDIR}/bin/nvim
+# The purpose of this shim is to make :checkhealth pass fully for python3,
+# nodejs, and coc.vim
+source "${HOME}/.dotdir" # Set DOTDIR
+# Node context for neovim
+: "${UNAME:=$(uname)}"
+: "${ARCH:=$(uname -m)}"
+export ASDF_DATA_DIR="${DOTDIR}/env/${UNAME}/${ARCH}/asdf"
+source "${ASDF_DATA_DIR}/asdf.sh"
+asdf shell nodejs 15.12.0
+# Python context for neovim
+source "${DOTDIR}/env/${UNAME}/${ARCH}/python3/bin/activate"
+
+# Set DOT_PYTHON which nvim uses as the value of g:python3_host_prog
+# :checkhealth complains if g:python3_host_prog is not set with multiple python
+# programs in the PATH.
+if [[ -z "${DOT_PYTHON}" ]]; then
+  export DOT_PYTHON="${DOTDIR}/env/${UNAME}/${ARCH}/python3/bin/python3"
+fi
+
+# Finally, with Python and Node in the path, launch neovim:
+if [[ -x "${DOTDIR}/env/${UNAME}/${ARCH}/squashfs-root/usr/bin/nvim" ]]; then
+  # Most linux systems will use appimage to get the latest nvim
+  exec "${DOTDIR}/env/${UNAME}/${ARCH}/squashfs-root/usr/bin/nvim" "$@"
+else
+  # macOS will use brew to get nvim
+  exec nvim "$@"
+fi

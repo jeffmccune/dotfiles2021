@@ -4,17 +4,18 @@ try_source() {
   fi
 }
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/dotfiles/zsh/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-try_source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-
-# Prezto
-try_source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-
 : "${HOSTNAME:=$(hostname)}"
 : "${UNAME:=$(uname)}"
 : "${ARCH:=$(uname -m)}"
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of
+# ${DOTDIR}/zsh/zdotdir/.zshrc Initialization code that may require console
+# input (password prompts, [y/n] confirmations, etc.) must go above this block;
+# everything else may go below.
+try_source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+
+# Prezto (No longer in use after 2021-03-30, too heavy and not necessary)
+try_source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 
 # Customization
 HISTSIZE=7000                # How many lines of history to keep in memory
@@ -46,13 +47,9 @@ if [[ -d "${HOME}/apps/${UNAME}/${ARCH}" ]]; then
   fi
 fi
 
-# ~/.dotfiles2021-apps is the same intent, but not synced and created by the
-# setup_server script.
-if [[ -d "${HOME}/.dotfiles2021-apps/${UNAME}/${ARCH}" ]]; then
-  export PATH="${HOME}/.dotfiles2021-apps/${UNAME}/${ARCH}:${PATH}"
-  if [[ -d "${HOME}/.dotfiles2021-apps/${UNAME}/${ARCH}/squashfs-root/usr/bin" ]]; then
-    export PATH="${HOME}/.dotfiles2021-apps/${UNAME}/${ARCH}/squashfs-root/usr/bin:${PATH}"
-  fi
+# Shim scripts (primarily for nvim) which set a specific tool/provider context.
+if [[ -d "${DOTDIR}/bin" ]]; then
+  export PATH="${DOTDIR}/bin:${PATH}"
 fi
 
 # Powerline Status should be installed using:
@@ -61,8 +58,8 @@ fi
 # ~/.pydotfiles/bin/python3 -m pip install powerline-status
 # See: ~/.tmux.conf.powerline
 if [[ -z "${POWERLINE_CONFIG_COMMAND}" ]]; then
-  if [[ -x "${HOME}/.dotfiles2021-python/bin/powerline-config" ]]; then
-    export POWERLINE_CONFIG_COMMAND="${HOME}/.dotfiles2021-python/bin/powerline-config"
+  if [[ -x "${DOTDIR}/bin/powerline-config" ]]; then
+    export POWERLINE_CONFIG_COMMAND="${DOTDIR}/bin/powerline-config"
   fi
 fi
 

@@ -4,31 +4,14 @@
 #
 # Setup a bastion host (Debian) the way I like it.
 
+set -eu
+
+: "${DOTDIR:="${HOME}/.dot"}"
 : "${UNAME:=$(uname)}"
 : "${ARCH:=$(uname -m)}"
 
-sudo apt install -y curl zsh tmux direnv ripgrep python3 python3-venv
-
-mkdir -p "${HOME}/.dotfiles2021-apps/${UNAME}/${ARCH}"
-cd "${HOME}/.dotfiles2021-apps/${UNAME}/${ARCH}" || exit 1
-curl -OL https://github.com/neovim/neovim/releases/download/v0.4.4/nvim.appimage
-chmod a+x nvim.appimage
-./nvim.appimage --appimage-extract > /dev/null
-rm -f nvim.appimage
-
-# Install node for coc-vim
-export NVM_DIR="${HOME}/.dotfiles2021-node"
-mkdir -p "${NVM_DIR}"
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
-source "${NVM_DIR}/nvm.sh"
-# Use this node version with neovim
-# let g:coc_node_path = "$HOME/.dotfiles2021-node/versions/node/v15.12.0/bin/node"
-nvm install node 15.12.0
-
-# Install golang (Takes 350 MiB so commented out)
-# if ! [[ -d ~/go ]]; then
-#   curl -Lo- https://golang.org/dl/go1.14.6.linux-amd64.tar.gz | tar -C "$HOME" -xzf-
-# fi
+# GnuPG is necessary to install nodejs through asdf
+sudo apt install -y curl zsh tmux direnv ripgrep python3 python3-venv gnupg
 
 setup_known_hosts() {
   tee -a ~/.ssh/known_hosts <<PUBKEY
@@ -47,8 +30,61 @@ if ! grep -q '^github.com' ~/.ssh/known_hosts; then
   setup_known_hosts
 fi
 
-if ! [[ -d ~/.dotfiles2021 ]]; then
-  git clone git@github.com:jeffmccune/dotfiles2021.git ~/.dotfiles2021 --depth=1
+if ! [[ -d "${DOTDIR}" ]]; then
+  git clone https://github.com/jeffmccune/dotfiles2021.git "${DOTDIR}" --depth=1
 fi
 
-exec bash ~/.dotfiles2021/install
+# Now set the dotdir
+source "${DOTDIR}/scripts/setup_dotdir"
+
+mkdir -p "${DOTDIR}/env/${UNAME}/${ARCH}"
+
+if type pyvenv > /dev/null; then
+  if ! [[ -d "${DOTDIR}/env/${UNAME}/${ARCH}/python3" ]]; then
+    python3 -m venv "${DOTDIR}/env/${UNAME}/${ARCH}/python3"
+    "${DOTDIR}/env/${UNAME}/${ARCH}/python3/bin/python3" -m pip install --upgrade pip wheel setuptools
+    "${DOTDIR}/env/${UNAME}/${ARCH}/python3/bin/python3" -m pip install --upgrade powerline-status pynvim yapf
+  fi
+else
+  echo "Warning: python3-venv is missing."
+  echo "On debian systems, fix with: apt-get install python3-venv"
+  echo "powerline-status and nvim will not work correctly without python3 bindings"
+fi
+
+# Install neovim
+cd "${DOTDIR}/env/${UNAME}/${ARCH}" || exit 1
+curl -OL https://github.com/neovim/neovim/releases/download/v0.4.4/nvim.appimage
+chmod a+x nvim.appimage
+./nvim.appimage --appimage-extract > /dev/null
+rm -f nvim.appimage
+
+# Install asdf to install node for neovim coc.vim
+export ASDF_DATA_DIR="${DOTDIR}/env/${UNAME}/${ARCH}/asdf"
+git clone https://github.com/asdf-vm/asdf.git "${ASDF_DATA_DIR}" --branch v0.8.0 --depth=1
+source "${ASDF_DATA_DIR}/asdf.sh"
+asdf plugin add nodejs
+# nodejs install requires gnupg
+asdf install nodejs 15.12.0
+asdf shell nodejs 15.12.0
+# -g is necessary, otherwise yarn will be installed to the local directory
+npm install -g yarn
+npm install -g neovim
+
+# Install golang (Takes 350 MiB so commented out)
+# if ! [[ -d ~/go ]]; then
+#   curl -Lo- https://golang.org/dl/go1.14.6.linux-amd64.tar.gz | tar -C "$HOME" -xzf-
+# fi
+
+# Create symlinks to all of the dotfiles.
+"${DOTDIR}/scripts/install"
+
+# Move ~/.vimrc.settings out of the way to install plugins.
+mv ~/.vimrc.settings ~/.vimrc.settings.hold
+touch ~/.vimrc.settings
+
+"${DOTDIR}/bin/nvim" --headless -c PlugInstall -c qall
+"${DOTDIR}/bin/nvim" --headless -c 'CocInstall -sync coc-diagnostic' -c qall
+"${DOTDIR}/bin/nvim" --headless -c 'CocInstall -sync coc-json' -c qall
+"${DOTDIR}/bin/nvim" --headless -c CocUpdateSync -c qall
+
+mv ~/.vimrc.settings.hold ~/.vimrc.settings

@@ -1,13 +1,10 @@
-# Determine where .zshrc is loaded from
-if [[ -d "${HOME}/.dotfiles2021/zsh/zdotdir" ]]; then
-  # This location is intended for servers.
-  export ZDOTDIR="${HOME}/.dotfiles2021/zsh/zdotdir"
-elif [[ -d "${HOME}/dotfiles/2021/zsh/zdotdir" ]]; then
-  # This location is intended for syncthing.
-  export ZDOTDIR="${HOME}/dotfiles/2021/zsh/zdotdir"
+# Determine where all of the dotfiles are located.
+if [[ -r "${HOME}/.dotdir" ]]; then
+  source "${HOME}/.dotdir"
 fi
 
-if [[ -e "${ZDOTDIR:-$HOME}/.zshenv" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zshenv"
+if [[ -z "${DOTDIR}" ]]; then
+  DOTDIR="${HOME}/.dot"
 fi
-# Apend to $ZDOTDIR/.zshenv instead of this file
+
+export ZDOTDIR="${DOTDIR}/zsh/zdotdir"

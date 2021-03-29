@@ -1,0 +1,16 @@
+#! /bin/bash
+#
+# Shim to setup Python3 and Node context then execute some tooling.  Symlink
+# the tool name to this shim.
+name="$(basename $0)"
+if [[ -r "${HOME}/.dotdir" ]]; then
+  source "${HOME}/.dotdir"
+fi
+: "${DOTDIR:="${HOME}/.dot"}"
+: "${UNAME:=$(uname)}"
+: "${ARCH:=$(uname -m)}"
+export ASDF_DATA_DIR="${DOTDIR}/env/${UNAME}/${ARCH}/asdf"
+source "${ASDF_DATA_DIR}/asdf.sh"
+asdf shell nodejs 15.12.0
+source "${DOTDIR}/env/${UNAME}/${ARCH}/python3/bin/activate"
+exec "${name#dot-}" "$@"

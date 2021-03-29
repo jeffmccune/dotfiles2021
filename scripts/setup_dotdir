@@ -1,0 +1,8 @@
+#! /bin/bash
+# During install, determine where our dotfiles are located.  This allows them
+# to be placed in different locations, e.g. ~/.dot or ~/dotfiles
+# Note, this assumes the dotfiles repository has already been cloned to the
+# correct, final location.
+: "${DOTDIR:=$(cd -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
+echo 'export DOTDIR="'"${DOTDIR//${HOME}/\$\{HOME\}}"'"' > "${HOME}/.dotdir"
+export DOTDIR

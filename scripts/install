@@ -1,0 +1,41 @@
+#! /bin/bash
+#
+set -eu
+
+source "${HOME}/.dotdir"
+: "${UNAME:=$(uname)}"
+: "${ARCH:=$(uname -m)}"
+
+cd "$HOME"
+
+# Powerline
+powerlineconf="$(find "${DOTDIR}/env/${UNAME}/${ARCH}/python3" -name powerline.conf)"
+if [[ -e "${powerlineconf}" ]]; then
+  (cd ~ && ln -sf "${powerlineconf}" .tmux.conf.powerline)
+fi
+
+ln_sf() {
+  local target="$1"
+  local path="$2"
+  if [[ -d "${path}" ]]; then
+    rm -rf "${path%/}"
+  fi
+  mkdir -p "$(dirname "${path%/}")"
+  ln -sf "${target%/}" "${path%/}"
+}
+
+ln_sf "${DOTDIR}/git/gitconfig" .gitconfig
+ln_sf "${DOTDIR}/zsh/zshenv" .zshenv
+ln_sf "${DOTDIR}/tmux/tmux.conf" .tmux.conf
+ln_sf "${DOTDIR}/config/powerline" .config/powerline
+ln_sf "${DOTDIR}/config/direnv/direnvrc" .config/direnv/direnvrc
+# Vim and NeoVim
+ln_sf "${DOTDIR}/config/nvim/init.vim" .config/nvim/init.vim
+ln_sf "${DOTDIR}/config/nvim/autoload" .config/nvim/autoload
+ln_sf "${DOTDIR}/config/nvim/coc-settings.json" .config/nvim/coc-settings.json
+ln_sf "${DOTDIR}/config/nvim/UltiSnips" .config/nvim/UltiSnips
+ln_sf "${DOTDIR}/vim/vimrc" .vimrc
+ln_sf "${DOTDIR}/vim/vimrc.settings" .vimrc.settings
+ln_sf "${DOTDIR}/vim/vimrc.before.local" .vimrc.before.local
+ln_sf "${DOTDIR}/vim/vimrc.bundles.local" .vimrc.bundles.local
+ln_sf "${DOTDIR}/vim/vimrc.local" .vimrc.local
