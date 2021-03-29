@@ -66,6 +66,11 @@ if [[ -z "${POWERLINE_CONFIG_COMMAND}" ]]; then
   fi
 fi
 
+# Set vi mode.  This should come before any other bindkey statements, otherwise
+# they may get overridden.  For example, setting bindkey -v after bindkey jk
+# causes the jk binding to have no effect.
+bindkey -v
+
 # edit-command-line widget
 autoload edit-command-line
 zle -N edit-command-line
@@ -79,7 +84,7 @@ KEYTIMEOUT=20
 
 bindkey '^N' list-choices
 
-# History search
+# History search.  Note, fzf may overwrite this binding at the end
 bindkey '^R' history-incremental-pattern-search-backward
 bindkey -M vicmd '?' history-incremental-pattern-search-backward
 
@@ -206,7 +211,6 @@ if which pyenv-virtualenv-init > /dev/null; then
   eval "$(pyenv virtualenv-init -)"
 fi
 
-# Set vi mode.  This needs to be late to take effect.
-bindkey -v
-
 unfunction try_source
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
