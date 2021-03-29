@@ -69,3 +69,6 @@ ln_sf "${DOT2021}/vim/vimrc.local" .vimrc.local
 
 echo "All done!  Dotfiles installed in ${DOT2021}"
 echo "Log out and back in to activate the shell."
+echo
+echo "Don't forget nvim with :PlugInstall and :CocInstall coc-diagnostic"
+echo "They run asyncronously, so it's best to install manually"

@@ -4,7 +4,6 @@
 #
 # Setup a bastion host (Debian) the way I like it.
 
-stamp="$(date +%s).$$"
 : "${UNAME:=$(uname)}"
 : "${ARCH:=$(uname -m)}"
 
@@ -16,7 +15,15 @@ curl -OL https://github.com/neovim/neovim/releases/download/v0.4.4/nvim.appimage
 chmod a+x nvim.appimage
 ./nvim.appimage --appimage-extract > /dev/null
 rm -f nvim.appimage
-export PATH="${HOME}/squashfs-root/usr/bin:$PATH"
+
+# Install node for coc-vim
+export NVM_DIR="${HOME}/.dotfiles2021-node"
+mkdir -p "${NVM_DIR}"
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+source "${NVM_DIR}/nvm.sh"
+# Use this node version with neovim
+# let g:coc_node_path = "$HOME/.dotfiles2021-node/versions/node/v15.12.0/bin/node"
+nvm install node 15.12.0
 
 # Install golang (Takes 350 MiB so commented out)
 # if ! [[ -d ~/go ]]; then
