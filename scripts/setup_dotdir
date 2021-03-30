@@ -3,6 +3,6 @@
 # to be placed in different locations, e.g. ~/.dot or ~/dotfiles
 # Note, this assumes the dotfiles repository has already been cloned to the
 # correct, final location.
-: "${DOTDIR:=$(cd -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
-echo 'export DOTDIR="'"${DOTDIR//${HOME}/\$\{HOME\}}"'"' > "${HOME}/.dotdir"
+: "${DOTDIR:=$(dirname "$(cd -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)")}"
+echo 'export DOTDIR="'"${DOTDIR//${HOME}/\$HOME}"'"' > "${HOME}/.dotdir"
 export DOTDIR
