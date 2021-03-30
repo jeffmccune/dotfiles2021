@@ -1,0 +1,80 @@
+#! /bin/bash
+# Copyright 2020 Open Infrastructure Services, LLC
+# Licensed under the Apache License, Version 2.0 (the "License");
+#
+# Setup a bastion host (Darwin) the way I like it.
+
+set -eu
+
+: "${DOTDIR:="${HOME}/.dot"}"
+: "${UNAME:=$(uname)}"
+: "${ARCH:=$(uname -m)}"
+
+# GnuPG is necessary to install nodejs through asdf
+# Homebrew dependencies: tmux direnv ripgrep python3 python3-venv gnupg
+
+setup_known_hosts() {
+  tee -a ~/.ssh/known_hosts <<PUBKEY
+|1|NYMktv4Di5DA0supgl3WLa6IFy8=|DKVEL/u1pR2M56afR+vW0he3CNs= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFSMqzJeV9rUzU4kWitGjeR4PWSa29SPqJ1fVkhtj3Hw9xjLVXVYrU9QlYWrOLXBpQ6KWjbjTDTdDkoohFzgbEY=
+|1|qEp3xDdhJ2WO5EcyovrxmfPxMJ8=|joZN0KAA3xtdwpMbWluDrHwQoEs= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFSMqzJeV9rUzU4kWitGjeR4PWSa29SPqJ1fVkhtj3Hw9xjLVXVYrU9QlYWrOLXBpQ6KWjbjTDTdDkoohFzgbEY=
+github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+PUBKEY
+}
+
+# Add known host key for gitlab
+if ! [[ -f ~/.ssh/known_hosts ]]; then
+  setup_known_hosts
+fi
+
+if ! grep -q '^github.com' ~/.ssh/known_hosts; then
+  setup_known_hosts
+fi
+
+if ! [[ -d "${DOTDIR}" ]]; then
+  git clone https://github.com/jeffmccune/dotfiles2021.git "${DOTDIR}" --depth=1
+fi
+
+# Create ~/.dotdir which specifies the location of the dotdir.
+source "${DOTDIR}/scripts/setup_dotdir"
+
+mkdir -p "${DOTDIR}/env/${UNAME}/${ARCH}"
+
+# The system /usr/bin/python3 is used for python to minimize dependencies
+if ! [[ -d "${DOTDIR}/env/${UNAME}/${ARCH}/python3" ]]; then
+  /usr/bin/python3 -m venv "${DOTDIR}/env/${UNAME}/${ARCH}/python3"
+  "${DOTDIR}/env/${UNAME}/${ARCH}/python3/bin/python3" -m pip install --upgrade pip wheel setuptools
+  "${DOTDIR}/env/${UNAME}/${ARCH}/python3/bin/python3" -m pip install --upgrade powerline-status pynvim yapf
+fi
+
+# Install asdf to install node for neovim coc.vim
+export ASDF_DATA_DIR="${DOTDIR}/env/${UNAME}/${ARCH}/asdf"
+if ! [[ -d "${ASDF_DATA_DIR}" ]]; then
+  git clone https://github.com/asdf-vm/asdf.git "${ASDF_DATA_DIR}" --branch v0.8.0 --depth=1
+fi
+source "${ASDF_DATA_DIR}/asdf.sh"
+asdf plugin add nodejs
+# nodejs install requires gnupg
+asdf install nodejs 15.12.0
+asdf shell nodejs 15.12.0
+# -g is necessary, otherwise yarn will be installed to the local directory
+npm install -g yarn
+npm install -g neovim
+
+# Install golang (Takes 350 MiB so commented out)
+# if ! [[ -d ~/go ]]; then
+#   curl -Lo- https://golang.org/dl/go1.14.6.linux-amd64.tar.gz | tar -C "$HOME" -xzf-
+# fi
+
+# Create symlinks to all of the dotfiles.
+"${DOTDIR}/scripts/install"
+
+# Move ~/.vimrc.settings out of the way to install plugins.
+mv ~/.vimrc.settings ~/.vimrc.settings.hold
+touch ~/.vimrc.settings
+
+"${DOTDIR}/bin/nvim" --headless -c PlugInstall -c qall
+"${DOTDIR}/bin/nvim" --headless -c 'CocInstall -sync coc-diagnostic' -c qall
+"${DOTDIR}/bin/nvim" --headless -c 'CocInstall -sync coc-json' -c qall
+"${DOTDIR}/bin/nvim" --headless -c CocUpdateSync -c qall
+
+mv ~/.vimrc.settings.hold ~/.vimrc.settings

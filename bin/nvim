@@ -23,7 +23,11 @@ fi
 if [[ -x "${DOTDIR}/env/${UNAME}/${ARCH}/squashfs-root/usr/bin/nvim" ]]; then
   # Most linux systems will use appimage to get the latest nvim
   exec "${DOTDIR}/env/${UNAME}/${ARCH}/squashfs-root/usr/bin/nvim" "$@"
+elif [[ -x /usr/local/bin/nvim ]]; then
+  exec /usr/local/bin/nvim "$@"
+elif [[ -x /usr/bin/nvim ]]; then
+  exec /usr/bin/nvim "$@"
 else
-  # macOS will use brew to get nvim
-  exec nvim "$@"
+  echo "Error: Could not find a suitable nvim to execute" >&2
+  exit 1
 fi
