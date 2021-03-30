@@ -4,6 +4,8 @@
 #
 # Setup a bastion host (Debian) the way I like it.
 
+set -eu
+
 : "${DOTDIR:="${HOME}/.dot"}"
 : "${UNAME:=$(uname)}"
 : "${ARCH:=$(uname -m)}"
@@ -73,7 +75,7 @@ npm install -g yarn
 # fi
 
 # Create symlinks to all of the dotfiles.
-bash "${DOTDIR}/sripts/install"
+"${DOTDIR}/scripts/install"
 
 # Move ~/.vimrc.settings out of the way to install plugins.
 mv ~/.vimrc.settings ~/.vimrc.settings.hold
