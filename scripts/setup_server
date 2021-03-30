@@ -60,9 +60,11 @@ rm -f nvim.appimage
 
 # Install asdf to install node for neovim coc.vim
 export ASDF_DATA_DIR="${DOTDIR}/env/${UNAME}/${ARCH}/asdf"
-git clone https://github.com/asdf-vm/asdf.git "${ASDF_DATA_DIR}" --branch v0.8.0 --depth=1
+if ! [[ -d "${ASDF_DATA_DIR}" ]]; then
+  git clone https://github.com/asdf-vm/asdf.git "${ASDF_DATA_DIR}" --branch v0.8.0 --depth=1
+fi
 source "${ASDF_DATA_DIR}/asdf.sh"
-asdf plugin add nodejs
+asdf plugin add nodejs || true
 # nodejs install requires gnupg
 asdf install nodejs 15.12.0
 asdf shell nodejs 15.12.0
@@ -88,3 +90,5 @@ touch ~/.vimrc.settings
 "${DOTDIR}/bin/nvim" --headless -c CocUpdateSync -c qall
 
 mv ~/.vimrc.settings.hold ~/.vimrc.settings
+
+echo "All done."
