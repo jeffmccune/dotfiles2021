@@ -5,7 +5,7 @@ set -eu
 source "${HOME}/.dotdir"
 # Get a relative path to dotdir to make it easy to relocate the home directory,
 # not that I ever would.
-DOTREL="${DOTDIR//${HOME}/}"
+DOTREL="${DOTDIR//${HOME}\//}"
 : "${UNAME:=$(uname)}"
 : "${ARCH:=$(uname -m)}"
 
