@@ -1,0 +1,43 @@
+#! /bin/bash
+#
+set -eu
+
+source "${HOME}/.dotdir"
+
+# Get a relative path to dotdir to make it easy to relocate the home directory,
+# not that I ever would.
+DOTREL="${DOTDIR//${HOME}/}"
+
+cd "$HOME"
+
+# Powerline
+powerlineconf="$(find "${DOTREL}/env/${UNAME}/${ARCH}/python3" -name powerline.conf)"
+if [[ -e "${powerlineconf}" ]]; then
+  (cd ~ && ln -sf "${powerlineconf}" .tmux.conf.powerline)
+fi
+
+ln_sf() {
+  local target="$1"
+  local path="$2"
+  if [[ -d "${path}" ]]; then
+    rm -rf "${path%/}"
+  fi
+  mkdir -p "$(dirname "${path%/}")"
+  ln -sf "${target%/}" "${path%/}"
+}
+
+ln_sf "${DOTREL}/git/gitconfig" .gitconfig
+ln_sf "${DOTREL}/zsh/zshenv" .zshenv
+ln_sf "${DOTREL}/tmux/tmux.conf" .tmux.conf
+ln_sf "${DOTREL}/config/powerline" .config/powerline
+ln_sf "${DOTREL}/config/direnv/direnvrc" .config/direnv/direnvrc
+# Vim and NeoVim
+ln_sf "${DOTREL}/config/nvim/init.vim" .config/nvim/init.vim
+ln_sf "${DOTREL}/config/nvim/autoload" .config/nvim/autoload
+ln_sf "${DOTREL}/config/nvim/coc-settings.json" .config/nvim/coc-settings.json
+ln_sf "${DOTREL}/config/nvim/UltiSnips" .config/nvim/UltiSnips
+ln_sf "${DOTREL}/vim/vimrc" .vimrc
+ln_sf "${DOTREL}/vim/vimrc.settings" .vimrc.settings
+ln_sf "${DOTREL}/vim/vimrc.before.local" .vimrc.before.local
+ln_sf "${DOTREL}/vim/vimrc.bundles.local" .vimrc.bundles.local
+ln_sf "${DOTREL}/vim/vimrc.local" .vimrc.local
