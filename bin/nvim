@@ -11,6 +11,14 @@ source "${ASDF_DATA_DIR}/asdf.sh"
 asdf shell nodejs 15.12.0
 # Python context for neovim
 source "${DOTDIR}/env/${UNAME}/${ARCH}/python3/bin/activate"
+
+# Set DOT_PYTHON which nvim uses as the value of g:python3_host_prog
+# :checkhealth complains if g:python3_host_prog is not set with multiple python
+# programs in the PATH.
+if [[ -z "${DOT_PYTHON}" ]]; then
+  export DOT_PYTHON="${DOTDIR}/env/${UNAME}/${ARCH}/python3/bin/python3"
+fi
+
 # Finally, with Python and Node in the path, launch neovim:
 if [[ -x "${DOTDIR}/env/${UNAME}/${ARCH}/squashfs-root/usr/bin/nvim" ]]; then
   # Most linux systems will use appimage to get the latest nvim
