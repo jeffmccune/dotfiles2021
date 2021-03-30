@@ -8,6 +8,7 @@ source "${HOME}/.dotdir" # Set DOTDIR
 : "${ARCH:=$(uname -m)}"
 export ASDF_DATA_DIR="${DOTDIR}/env/${UNAME}/${ARCH}/asdf"
 source "${ASDF_DATA_DIR}/asdf.sh"
+asdf shell nodejs 15.12.0
 # Python context for neovim
 source "${DOTDIR}/env/${UNAME}/${ARCH}/python3/bin/activate"
 # Finally, with Python and Node in the path, launch neovim:
