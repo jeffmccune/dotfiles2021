@@ -6,7 +6,11 @@ Dotfile bankruptcy after a couple decades of cruft.
 Lightweight mode, for servers:
 
 ```bash
-curl -Ls https://raw.githubusercontent.com/jeffmccune/dotfiles2021/main/scripts/setup_server | bash -x
+wget -q -O- https://git.io/JY0Yx | bash -x
+```
+
+```bash
+curl -Ls https://git.io/JY0Yx | bash -x
 ```
 
 Heavyweight mode, for bastions and development workstations:
