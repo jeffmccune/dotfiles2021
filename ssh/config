@@ -1,0 +1,39 @@
+Host *
+  ForwardAgent yes
+  ForwardX11 no
+  SendEnv LANG
+  SendEnv TZ
+
+Host *.socks
+  DynamicForward 8080
+
+# pi4 2019-11-03 - 192.168.0.120
+Host *.hq
+  Hostname hq.ois.run
+  User jeff
+
+Host gigabyte.hq
+  Port 22012
+
+# pi4 2019-12-09 - 192.168.2.120
+Host home
+  Hostname hq.ois.run
+  Port 22120
+  User jeff
+
+# *.home
+Host *.home
+  User jeff
+
+Host tw.*
+  User jmccune
+  Hostname tw-mbp-jmccune.home
+
+Host tw.tunnel
+  DynamicForward 8082
+  LocalForward 5902 127.0.0.1:5900
+
+# G Corp SSH Helper
+Host *.corp
+  User jmccune
+  ProxyCommand corp-ssh-helper %h %p
