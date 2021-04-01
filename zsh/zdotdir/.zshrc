@@ -63,6 +63,20 @@ if [[ -z "${POWERLINE_CONFIG_COMMAND}" ]]; then
   fi
 fi
 
+# Fix zsh compinit: insecure directories, run compaudit for list
+# On macOS homebrew
+if [[ "$UNAME" == "Darwin" ]]; then
+  if [[ -d "/usr/local/share/zsh" ]]; then
+    chmod 755 "/usr/local/share/zsh"
+  fi
+  if [[ -d "/usr/local/share/zsh/site-functions" ]]; then
+    chmod 755 "/usr/local/share/zsh/site-functions"
+  fi
+fi
+# Turn on completion
+autoload -Uz compinit
+compinit
+
 # Set vi mode.  This should come before any other bindkey statements, otherwise
 # they may get overridden.  For example, setting bindkey -v after bindkey jk
 # causes the jk binding to have no effect.
