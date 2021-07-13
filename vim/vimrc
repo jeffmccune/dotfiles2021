@@ -8,10 +8,9 @@ let g:polyglot_disabled = []
 
 call plug#begin()
 
-" Jeff Verified
+" Theme
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" Plug 'jeffmccune/vim-colors-solarized'
 Plug 'overcache/NeoSolarized'
 
 " Nerdtree is disabled to improve load time: Basic shell script:
@@ -22,29 +21,34 @@ Plug 'overcache/NeoSolarized'
 
 " Handle surrounding pairs, e.g. cs'" etc...
 Plug 'tpope/vim-surround'
+" Fugitive is the premier Vim plugin for Git.
 Plug 'tpope/vim-fugitive'
+" Vim script for text filtering and alignment
 Plug 'godlygeek/tabular'
+
 " Fuzzy Finder, replacement for ctrl-p
+" 2021-07-12 I use fzf constantly.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-" Plug 'bling/vim-airline'
 Plug 'hwartig/vim-seeing-is-believing'
-"Plug 'morhetz/gruvbox'
-" Plug 'lifepillar/vim-solarized8'
 Plug 'rodjek/vim-puppet'
 " Golang
 Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
 
 Plug 'tpope/vim-commentary'
-Plug 'dense-analysis/ale'
+
+" 2021-07-12 Disable ALE to try nvim 0.5.0 LSP
+" Plug 'dense-analysis/ale'
 
 " Ack
-Plug 'mileszs/ack.vim'
+" 2021-07-12 Disabled, I use :Rg from fzf-vim-commands most often these days.
+" Plug 'mileszs/ack.vim'
 
 " Snippets
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" 2021-07-12 Disabled, I don't use snippets that often.
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
 
 " Case preservation using :%S/badjob/goodjob/g
 Plug 'tpope/vim-abolish'
@@ -52,17 +56,26 @@ Plug 'tpope/vim-abolish'
 " 2020-06-11 Completion Improvements
 " 2020-10-07 NOTE, coc may make ncm2 irrelevant
 " Provides shellcheck via https://github.com/iamcco/diagnostic-languageserver
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'neoclide/coc-snippets'
+" 2021-07-12 CoC replaced by nvim 0.5.0 built in LSP
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc-snippets'
 " Then: :CocInstall coc-diagnostic to get shellcheck
+
+" 2021-07-12 nvim 0.5.0 LSP https://github.com/neovim/nvim-lspconfig
+" NOTE: Make sure to use :terminal to install language servers so that the
+" proper node.js executable is used.  The $DOTDIR/bin/nvim wrapper script
+" loads asdf to have a consistent node environment for neovim.
+Plug 'neovim/nvim-lspconfig'
 
 " Rename tabs for better organization
 " https://github.com/gcmt/taboo.vim
 Plug 'gcmt/taboo.vim'
 
+" A collection of language packs for Vim.
 " Load polyglot last
 " See: https://github.com/fatih/vim-go/issues/2262
-Plug 'sheerun/vim-polyglot'
+" Disabled to use nvim 0.5.0 LSP
+" Plug 'sheerun/vim-polyglot'
 call plug#end()
 
 :so ~/.vimrc.settings

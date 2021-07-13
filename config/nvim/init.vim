@@ -12,3 +12,11 @@ endif
 
 let g:UltiSnipsSnippetDirectories = ['~/.config/nvim/UltiSnips', 'UltiSnips']
 :so ~/.vimrc
+
+" https://github.com/neovim/nvim-lspconfig
+" Depends on :terminal npm i -g pyright
+" This must come after plug#end()
+lua << EOF
+require'lspconfig'.pyright.setup{}
+require'lspconfig'.gopls.setup{}
+EOF
