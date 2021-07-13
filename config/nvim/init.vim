@@ -13,8 +13,12 @@ endif
 let g:UltiSnipsSnippetDirectories = ['~/.config/nvim/UltiSnips', 'UltiSnips']
 :so ~/.vimrc
 
-" https://github.com/neovim/nvim-lspconfig
-" Depends on :terminal npm i -g pyright
+" TODO: Consider switching to the jedi language server from pyright.
+"
+" [LSP Configurations](https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md)
+" :terminal yarn global add pyright yaml-language-server
+" :terminal asdf rehash
+"
 " This must come after plug#end()
 lua << EOF
 local nvim_lsp = require('lspconfig')
