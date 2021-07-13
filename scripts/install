@@ -32,6 +32,7 @@ ln_sf "${DOTDIR}/config/direnv/direnvrc" .config/direnv/direnvrc
 # Vim and NeoVim
 ln_sf "${DOTDIR}/config/nvim/init.vim" .config/nvim/init.vim
 ln_sf "${DOTDIR}/config/nvim/autoload" .config/nvim/autoload
+ln_sf "${DOTDIR}/config/nvim/ftplugin" .config/nvim/ftplugin
 ln_sf "${DOTDIR}/config/nvim/coc-settings.json" .config/nvim/coc-settings.json
 ln_sf "${DOTDIR}/config/nvim/UltiSnips" .config/nvim/UltiSnips
 ln_sf "${DOTDIR}/vim/vimrc" .vimrc
