@@ -17,7 +17,7 @@ let g:UltiSnipsSnippetDirectories = ['~/.config/nvim/UltiSnips', 'UltiSnips']
 "
 " [LSP Configurations](https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md)
 " :terminal yarn global add pyright yaml-language-server
-" :terminal asdf rehash
+" :terminal asdf reshim
 "
 " This must come after plug#end()
 lua << EOF
