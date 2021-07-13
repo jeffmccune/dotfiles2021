@@ -176,6 +176,16 @@ fi
 # Ack
 export ACK_OPTIONS='--ignore-dir=.bundle --ignore-dir=.terragrunt-cache --ignore-dir=.terraform --ignore-dir=.env --ignore-dir=.kitchen'
 
+# Istio - curl -sL https://istio.io/downloadIstioctl | bash
+if [[ -d "$HOME/.istioctl/bin" ]]; then
+  export PATH=$PATH:$HOME/.istioctl/bin
+fi
+
+# System wide go path
+if [[ -d /usr/local/go ]]; then
+  export PATH="${PATH}:/usr/local/go/bin"
+fi
+
 # GOPATH
 if [[ -z ${GOPATH:-} ]]; then
   if [[ -d ${HOME}/go ]]; then
