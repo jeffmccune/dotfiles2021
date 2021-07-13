@@ -4,6 +4,45 @@ Host *
   SendEnv LANG
   SendEnv TZ
 
+Host *.ois.lan
+  User jeff
+
+Host *.pdx.ois.run
+  User jeff
+
+Host bastion.pdx.ois.run
+  Port 22010
+
+Host puppet.pdx.ois.run
+  Port 22011
+
+Host rt1
+  Hostname 10.64.0.3
+  User localadm
+
+Host rt2
+  Hostname 10.64.0.4
+  User localadm
+
+Host gw1
+  # https://vault.ois.run/ui/vault/secrets/secret/show/logins/ois1/rt3/vyos
+  Hostname 10.64.0.5
+  User vyos
+
+Host gw2
+  # https://vault.ois.run/ui/vault/secrets/secret/show/logins/ois1/rt3/vyos
+  Hostname 10.64.0.6
+  User vyos
+
+Host bastion.ois.lan
+Host puppet.ois.lan
+Host r620a.ois.lan
+Host r620b.ois.lan
+Host r620c.ois.lan
+
+Host r620*.ois.lan
+  User root
+
 Host *.socks
   DynamicForward 8080
 
