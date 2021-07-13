@@ -49,10 +49,14 @@ applications on your system. Configure your terminal to use this font:
   *Custom font* under *Text Appearance* and select `MesloLGS NF Regular`.
 - **Windows Console Host** (the old thing): Click the icon in the top left corner, then
   *Properties → Font* and set *Font* to `MesloLGS NF`.
-- **Microsoft Terminal** (the new thing): Open *Settings* (`Ctrl+,`), search for `fontFace` and set
-  value to `MesloLGS NF` for every profile.
-- **IntelliJ**: Open *Intellij → Edit → Preferences → Editor → Color Scheme → Console Font*.
-  Select *Use console font instead of the default* and set the font name to `MesloLGS NF`.
+- **Windows Terminal** by Microsoft (the new thing): Open `settings.json` (<kbd>Ctrl+Shift+,</kbd>),
+  search for `fontFace` and set the value to `MesloLGS NF` for every profile. If you don't find
+  `fontFace`, add it under *profiles → default*. See [this settings file](
+    https://raw.githubusercontent.com/romkatv/dotfiles-public/aba0e6c4657d705ed6c344d700d659977385f25c/dotfiles/microsoft-terminal-settings.json)
+  for example.
+- **IntelliJ** (and other IDEs by Jet Brains): Open *IDE → Edit → Preferences → Editor →
+  Color Scheme → Console Font*. Select *Use console font instead of the default* and set the font
+  name to `MesloLGS NF`.
 - **Termux**: Type `p10k configure` and answer `Yes` when asked whether to install
   *Meslo Nerd Font*.
 - **Blink**: Type `config`, go to *Appearance*, tap *Add a new font*, tap *Open Gallery*, select
@@ -64,8 +68,12 @@ applications on your system. Configure your terminal to use this font:
 - **Guake**: Right Click on an open terminal and open *Preferences*. Under *Appearance*
   tab, uncheck *Use the system fixed width font* (if not already) and select `MesloLGS NF Regular`.
   Exit the Preferences dialog by clicking *Close*.
-- **MobaXterm**: Open *Settings* → *Configuration* → *Terminal* → (Under *Terminal look and feel*)
+- **MobaXterm**: Open *Settings* → *Configuration* → *Terminal* → (under *Terminal look and feel*)
   and change *Font* to `MesloLGS NF`.
+- **Asbrú Connection Manager**: Open *Preferences → Local Shell Options → Look and Feel*, enable
+  *Use these personal options* and change *Font:* under *Terminal UI* to `MesloLGS NF Regular`.
+  To change the font for the remote host connections, go to *Preferences → Terminal Options →
+  Look and Feel* and change *Font:* under *Terminal UI* to `MesloLGS NF Regular`.
 - **WSLtty**: Right click on an open terminal and then on *Options*. In the *Text* section, under
   *Font*, click *"Select..."* and set Font to `MesloLGS NF Regular`.
 - **Alacritty**: Create or open `~/.config/alacritty/alacritty.yml` and add the following section
