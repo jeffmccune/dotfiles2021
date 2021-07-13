@@ -35,6 +35,8 @@ Plug 'hwartig/vim-seeing-is-believing'
 Plug 'rodjek/vim-puppet'
 " Golang
 Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
+" Terraform highlighting
+Plug 'hashivim/vim-terraform'
 
 Plug 'tpope/vim-commentary'
 
