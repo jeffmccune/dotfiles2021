@@ -15,6 +15,8 @@ let g:UltiSnipsSnippetDirectories = ['~/.config/nvim/UltiSnips', 'UltiSnips']
 
 " TODO: Consider switching to the jedi language server from pyright.
 "
+" :LspInfo shows the status of active and configured language servers.
+"
 " [LSP Configurations](https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md)
 " :terminal yarn global add pyright yaml-language-server
 " :terminal asdf reshim

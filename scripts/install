@@ -24,6 +24,10 @@ ln_sf() {
   ln -sf "${target%/}" "${path%/}"
 }
 
+if [[ "$UNAME" == "Darwin" ]]; then
+  ln_sf "${DOTDIR}/Library/Application Support/LaunchBar/Snippets" "Library/Application Support/LaunchBar/Snippets"
+fi
+
 ln_sf "${DOTDIR}/git/gitconfig" .gitconfig
 ln_sf "${DOTDIR}/zsh/zshenv" .zshenv
 ln_sf "${DOTDIR}/tmux/tmux.conf" .tmux.conf

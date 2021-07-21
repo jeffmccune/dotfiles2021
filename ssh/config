@@ -34,6 +34,9 @@ Host gw2
   Hostname 10.64.0.6
   User vyos
 
+Host *.internalzone.com
+  ProxyCommand corkscrew 127.0.0.1 3128 %h %p
+
 Host bastion.ois.lan
 Host puppet.ois.lan
 Host r620a.ois.lan
