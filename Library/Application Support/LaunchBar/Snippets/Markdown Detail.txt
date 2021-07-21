@@ -1,0 +1,9 @@
+<details><summary><clipboard 1></summary>
+<p>
+
+```
+<clipboard 2>
+```
+
+</p>
+</details>
