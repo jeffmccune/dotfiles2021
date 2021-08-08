@@ -235,3 +235,4 @@ fi
 unfunction try_source
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.cargo/env ] && source ~/.cargo/env
