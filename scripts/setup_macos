@@ -68,15 +68,4 @@ npm install -g neovim
 # Create symlinks to all of the dotfiles.
 "${DOTDIR}/scripts/install"
 
-# Move ~/.vimrc.settings out of the way to install plugins.
-mv ~/.vimrc.settings ~/.vimrc.settings.hold
-touch ~/.vimrc.settings
-
-"${DOTDIR}/bin/nvim" --headless -c PlugInstall -c qall
-"${DOTDIR}/bin/nvim" --headless -c 'CocInstall -sync coc-diagnostic' -c qall
-"${DOTDIR}/bin/nvim" --headless -c 'CocInstall -sync coc-json' -c qall
-"${DOTDIR}/bin/nvim" --headless -c CocUpdateSync -c qall
-
-mv ~/.vimrc.settings.hold ~/.vimrc.settings
-
 echo "All done."
