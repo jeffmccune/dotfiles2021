@@ -251,3 +251,6 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.cargo/env ] && source ~/.cargo/env
+
+# Make sure 0 is in $? at the end of zshrc.
+true
