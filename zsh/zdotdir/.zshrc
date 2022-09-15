@@ -251,4 +251,3 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.cargo/env ] && source ~/.cargo/env
-eval "$(pyenv init -)"
