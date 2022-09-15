@@ -80,6 +80,9 @@ fi
 # Turn on completion
 autoload -Uz compinit
 compinit
+# Turn on bash completion compatibility
+autoload -Uz bashcompinit
+bashcompinit
 
 # Set vi mode.  This should come before any other bindkey statements, otherwise
 # they may get overridden.  For example, setting bindkey -v after bindkey jk
@@ -112,6 +115,8 @@ alias up='ntfy done vagrant up'
 alias mtr='sudo PATH=/usr/local/sbin:$PATH /usr/local/sbin/mtr'
 alias stripcolor='perl -pe '"'s/\e\[?.*?[\@-~]//g'"
 
+alias gs='git status -uno'
+
 # Task Warrior
 alias tw='task project:work'
 alias tp='task project:personal'
@@ -136,9 +141,11 @@ alias kns='kubectl config set-context --current --namespace'
 # Vim
 if type nvim > /dev/null; then
   alias vim='nvim'
+  export VISUAL='nvim'
   export EDITOR='nvim'
   export GIT_EDITOR='nvim'
 else
+  export VISUAL='vim'
   export EDITOR='vim'
   export GIT_EDITOR='vim'
 fi
