@@ -4,6 +4,10 @@ Host *
   SendEnv LANG
   SendEnv TZ
 
+Host twitter
+  User jmccune
+  Hostname 192.168.2.16
+
 Host *.ois.lan
   User jeff
 
@@ -70,6 +74,12 @@ Host home
 
 # *.home
 Host *.home
+  User jeff
+
+# tank
+Host tank.home
+  Hostname hq.ois.run
+  Port 22140
   User jeff
 
 Host tw.*

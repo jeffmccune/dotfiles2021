@@ -38,6 +38,10 @@ setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_BEEP
 
+if [[ -d "${HOME}/Library/Python/3.8/bin" ]]; then
+  export PATH="${HOME}/Library/Python/3.8/bin:${PATH}"
+fi
+
 # nvim.appimage --appimage-extract
 # ~/apps/ is a syncthing directory on development environment instances
 if [[ -d "${HOME}/apps/${UNAME}/${ARCH}" ]]; then
@@ -127,6 +131,7 @@ alias zulu='date -u +%FT%TZ'
 
 # Kubectl aliases
 alias k='kubectl'
+alias kns='kubectl config set-context --current --namespace'
 
 # Vim
 if type nvim > /dev/null; then
@@ -234,5 +239,9 @@ fi
 
 unfunction try_source
 
+# Work with direnv when vs code starts a shell in a working directory
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.cargo/env ] && source ~/.cargo/env
+eval "$(pyenv init -)"
