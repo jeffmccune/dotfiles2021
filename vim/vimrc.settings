@@ -52,6 +52,10 @@ let g:airline#extensions#tabline#show_tab_type = 0
 let g:airline#extensions#tabline#buffer_min_count = 1
 let g:airline_skip_empty_sections = 1
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+" The git branch is the most useful thing.
+let g:airline#extensions#branch#enabled = 1
+" Prevent airline from calling git status excessively
+let g:airline#extensions#branch#vcs_checks = []
 
 " vim-markdown settings
 let g:markdown_include_jekyll_support = 0

@@ -14,6 +14,10 @@ Host *.ois.lan
 Host *.pdx.ois.run
   User jeff
 
+Host tank.hq.ois.run
+  User jeff
+  Port 22140
+
 Host bastion.pdx.ois.run
   Port 22010
 

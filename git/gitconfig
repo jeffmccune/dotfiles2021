@@ -17,6 +17,7 @@
   fmerge = merge --ff --ff-only
   mc = merge --no-ff --log
   cm = "log -1 --pretty=%B"
+  rb = rebase --committer-date-is-author-date --rebase-merges
 
 [core]
   autocrlf = false

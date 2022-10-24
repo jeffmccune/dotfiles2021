@@ -12,7 +12,9 @@ try_source() {
 # ${DOTDIR}/zsh/zdotdir/.zshrc Initialization code that may require console
 # input (password prompts, [y/n] confirmations, etc.) must go above this block;
 # everything else may go below.
+(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv export zsh)"
 try_source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv hook zsh)"
 
 # Prezto (No longer in use after 2021-03-30, too heavy and not necessary)
 try_source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -136,6 +138,7 @@ alias zulu='date -u +%FT%TZ'
 
 # Kubectl aliases
 alias k='kubectl'
+alias v='vault'
 alias kns='kubectl config set-context --current --namespace'
 
 # Vim
@@ -229,6 +232,10 @@ if type kubectl > /dev/null; then
 fi
 alias k=kubectl
 
+if [[ -d "${HOME}/.krew/bin" ]]; then
+  export PATH="${HOME}/.krew/bin:${PATH}"
+fi
+
 # Pyenv
 if [[ -d "${HOME}/.pyenv" ]]; then
   export PYENV_ROOT="$HOME/.pyenv"
@@ -245,9 +252,6 @@ if which pyenv-virtualenv-init > /dev/null; then
 fi
 
 unfunction try_source
-
-# Work with direnv when vs code starts a shell in a working directory
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.cargo/env ] && source ~/.cargo/env
