@@ -24,12 +24,14 @@ if [[ -x "${DOTDIR}/env/${UNAME}/${ARCH}/squashfs-root/usr/bin/nvim" ]]; then
   exec "${DOTDIR}/env/${UNAME}/${ARCH}/squashfs-root/usr/bin/nvim" "$@"
 elif [[ -x "${DOTDIR}/env/${UNAME}/${ARCH}/nvim-osx64/bin/nvim" ]]; then
   exec "${DOTDIR}/env/${UNAME}/${ARCH}/nvim-osx64/bin/nvim" "$@"
-elif [[ -x /usr/local/bin/nvim ]]; then
-  exec /usr/local/bin/nvim "$@"
+elif [[ -x "${HOME}/apps/${UNAME}/${ARCH}/nvim-macos/bin/nvim" ]]; then
+  exec "${HOME}/apps/${UNAME}/${ARCH}/nvim-macos/bin/nvim" "$@"
 elif [[ -x "${HOME}/apps/${UNAME}/${ARCH}/squashfs-root/usr/bin/nvim" ]]; then
   exec "${HOME}/apps/${UNAME}/${ARCH}/squashfs-root/usr/bin/nvim" "$@"
 elif [[ -x "${HOME}/apps/${UNAME}/${ARCH}/nvim-osx64/bin/nvim" ]]; then
   exec "${HOME}/apps/${UNAME}/${ARCH}/nvim-osx64/bin/nvim" "$@"
+elif [[ -x /usr/local/bin/nvim ]]; then
+  exec /usr/local/bin/nvim "$@"
 elif [[ -x /usr/bin/nvim ]]; then
   exec /usr/bin/nvim "$@"
 else
