@@ -54,7 +54,7 @@ fi
 
 # Install neovim
 cd "${DOTDIR}/env/${UNAME}/${ARCH}" || exit 1
-curl -OL https://github.com/neovim/neovim/releases/download/v0.4.4/nvim.appimage
+curl -OL https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
 chmod a+x nvim.appimage
 ./nvim.appimage --appimage-extract > /dev/null
 rm -f nvim.appimage
@@ -62,16 +62,18 @@ rm -f nvim.appimage
 # Install asdf to install node for neovim coc.vim
 export ASDF_DATA_DIR="${DOTDIR}/env/${UNAME}/${ARCH}/asdf"
 if ! [[ -d "${ASDF_DATA_DIR}" ]]; then
-  git clone https://github.com/asdf-vm/asdf.git "${ASDF_DATA_DIR}" --branch v0.8.0 --depth=1
+  git clone https://github.com/asdf-vm/asdf.git "${ASDF_DATA_DIR}" --branch v0.11.0 --depth=1
 fi
 source "${ASDF_DATA_DIR}/asdf.sh"
-asdf plugin add nodejs || true
-# nodejs install requires gnupg
-asdf install nodejs 15.12.0
-asdf shell nodejs 15.12.0
-# -g is necessary, otherwise yarn will be installed to the local directory
-npm install -g yarn
-npm install -g neovim
+
+# 2023-01-11 Node isn't necessary, we no longer use nvim coc.
+# asdf plugin add nodejs || true
+# # nodejs install requires gnupg
+# asdf install nodejs 15.12.0
+# asdf shell nodejs 15.12.0
+# # -g is necessary, otherwise yarn will be installed to the local directory
+# npm install -g yarn
+# npm install -g neovim
 
 # Install golang (Takes 350 MiB so commented out)
 # if ! [[ -d ~/go ]]; then
@@ -85,10 +87,11 @@ npm install -g neovim
 mv ~/.vimrc.settings ~/.vimrc.settings.hold
 touch ~/.vimrc.settings
 
-"${DOTDIR}/bin/nvim" --headless -c PlugInstall -c qall
-"${DOTDIR}/bin/nvim" --headless -c 'CocInstall -sync coc-diagnostic' -c qall
-"${DOTDIR}/bin/nvim" --headless -c 'CocInstall -sync coc-json' -c qall
-"${DOTDIR}/bin/nvim" --headless -c CocUpdateSync -c qall
+# 2023-01-11 Don't use coc any more, prefer native nvim functionality.
+# "${DOTDIR}/bin/nvim" --headless -c PlugInstall -c qall
+# "${DOTDIR}/bin/nvim" --headless -c 'CocInstall -sync coc-diagnostic' -c qall
+# "${DOTDIR}/bin/nvim" --headless -c 'CocInstall -sync coc-json' -c qall
+# "${DOTDIR}/bin/nvim" --headless -c CocUpdateSync -c qall
 
 mv ~/.vimrc.settings.hold ~/.vimrc.settings
 

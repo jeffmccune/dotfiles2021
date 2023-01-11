@@ -7,4 +7,6 @@ if [[ -z "${DOTDIR}" ]]; then
   DOTDIR="${HOME}/.dot"
 fi
 
+export VAULT_ADDR="https://vault.core.ois.run"
+
 export ZDOTDIR="${DOTDIR}/zsh/zdotdir"

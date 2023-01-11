@@ -33,3 +33,6 @@
 	defaultBranch = main
 [pull]
 	ff = only
+[bash]
+	showUntrackedFiles = false
+	showDirtyState = false

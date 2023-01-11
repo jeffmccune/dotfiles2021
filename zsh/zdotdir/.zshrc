@@ -21,7 +21,7 @@ try_source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 
 # Customization
 HISTSIZE=7000                # How many lines of history to keep in memory
-HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history.${HOSTNAME%%.*}"
+HISTFILE="${HOME}/.zsh_history"
 SAVEHIST=9999
 HISTDUP=erase
 
@@ -42,6 +42,10 @@ setopt HIST_BEEP
 
 if [[ -d "${HOME}/Library/Python/3.8/bin" ]]; then
   export PATH="${HOME}/Library/Python/3.8/bin:${PATH}"
+fi
+
+if [[ -d "${HOME}/.local/bin" ]]; then
+  export PATH="${HOME}/.local/bin:${PATH}"
 fi
 
 # nvim.appimage --appimage-extract
@@ -201,13 +205,22 @@ if [[ -d /usr/local/go ]]; then
   export PATH="${PATH}:/usr/local/go/bin"
 fi
 
+# Our preferred go version
+GOVERS=1.18
+
 # GOPATH
-if [[ -z ${GOPATH:-} ]]; then
-  if [[ -d ${HOME}/go ]]; then
-    export PATH="${HOME}/go/bin:$PATH"
+if [[ -z ${GOROOT:-} ]]; then
+  if [[ -d "${HOME}/apps/${UNAME}/${ARCH}.go1.19/go" ]]; then
+    export GOROOT="${HOME}/apps/${UNAME}/${ARCH}.go1.19/go"
+    export GOPATH="${HOME}/go/go1.19"
+    export PATH="${GOPATH}/bin:${GOROOT}/bin:$PATH"
+  elif [[ -d "${HOME}/apps/${UNAME}/${ARCH}.go1.18/go" ]]; then
+    export GOROOT="${HOME}/apps/${UNAME}/${ARCH}.go1.18/go"
+    export GOPATH="${HOME}/go/go1.18"
+    export PATH="${GOPATH}/bin:${GOROOT}/bin:$PATH"
   fi
 else
-  export PATH="${GOPATH}/bin:$PATH"
+  export PATH="${GOROOT}/bin:$PATH"
 fi
 
 
@@ -255,6 +268,10 @@ unfunction try_source
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.cargo/env ] && source ~/.cargo/env
+
+# Disable gitstatusd computation of unstaged, untracked and conflicted changes
+# https://github.com/romkatv/powerlevel10k/issues/246#issuecomment-860272520
+POWERLEVEL9K_VCS_MAX_INDEX_SIZE_DIRTY=0
 
 # Make sure 0 is in $? at the end of zshrc.
 true

@@ -17,14 +17,19 @@ Plug 'overcache/NeoSolarized'
 " results in 22.708 increase in load time.
 " https://github.com/bchretien/vim-profiler
 " Plug 'scrooloose/nerdtree'
-" Plug 'airblade/vim-gitgutter' " 12.582
+Plug 'airblade/vim-gitgutter' " 12.582
 
 " Handle surrounding pairs, e.g. cs'" etc...
 Plug 'tpope/vim-surround'
 " Fugitive is the premier Vim plugin for Git.
 Plug 'tpope/vim-fugitive'
+" Necessary to use GBrowse and open a browser directly to the source
+Plug 'tpope/vim-rhubarb'
 " Vim script for text filtering and alignment
 Plug 'godlygeek/tabular'
+
+" k8s work
+Plug 'google/vim-jsonnet'
 
 " Fuzzy Finder, replacement for ctrl-p
 " 2021-07-12 I use fzf constantly.
