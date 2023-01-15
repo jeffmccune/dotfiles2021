@@ -40,12 +40,10 @@ source "${DOTDIR}/scripts/setup_dotdir"
 
 mkdir -p "${DOTDIR}/env/${UNAME}/${ARCH}"
 
-if type pyvenv > /dev/null; then
-  if ! [[ -d "${DOTDIR}/env/${UNAME}/${ARCH}/python3" ]]; then
-    python3 -m venv "${DOTDIR}/env/${UNAME}/${ARCH}/python3"
-    "${DOTDIR}/env/${UNAME}/${ARCH}/python3/bin/python3" -m pip install --upgrade pip wheel setuptools
-    "${DOTDIR}/env/${UNAME}/${ARCH}/python3/bin/python3" -m pip install --upgrade powerline-status pynvim yapf
-  fi
+if ! [[ -d "${DOTDIR}/env/${UNAME}/${ARCH}/python3" ]]; then
+  python3 -m venv "${DOTDIR}/env/${UNAME}/${ARCH}/python3"
+  "${DOTDIR}/env/${UNAME}/${ARCH}/python3/bin/python3" -m pip install --upgrade pip wheel setuptools
+  "${DOTDIR}/env/${UNAME}/${ARCH}/python3/bin/python3" -m pip install --upgrade powerline-status pynvim yapf
 else
   echo "Warning: python3-venv is missing."
   echo "On debian systems, fix with: apt-get install python3-venv"
