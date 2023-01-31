@@ -46,6 +46,7 @@ ln_sf "${DOTDIR}/vim/vimrc.before.local" .vimrc.before.local
 ln_sf "${DOTDIR}/vim/vimrc.bundles.local" .vimrc.bundles.local
 ln_sf "${DOTDIR}/vim/vimrc.local" .vimrc.local
 ln_sf "${DOTDIR}/ssh/config" .ssh/config
+
 chmod 700 ~/.ssh
 ln_sf "${DOTDIR}/ssh/authorized_keys" .ssh/authorized_keys
 chmod 644 ~/.ssh/authorized_keys
