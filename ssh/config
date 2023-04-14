@@ -22,6 +22,16 @@ Host tank.hq.ois.run
   User jeff
   Port 22140
 
+Host quant.home
+  Hostname 65.102.23.46
+  Port 22009
+  User jeff
+
+Host coffee.home
+  Hostname 65.102.23.46
+  Port 22021
+  User jeff
+
 Host bastion.pdx.ois.run
   Port 22010
 
