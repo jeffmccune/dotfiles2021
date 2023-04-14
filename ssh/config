@@ -4,6 +4,10 @@ Host *
   SendEnv LANG
   SendEnv TZ
 
+Host flpi
+  User jeff
+  Hostname 172.20.0.2
+
 Host twitter
   User jmccune
   Hostname 192.168.2.16

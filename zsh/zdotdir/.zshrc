@@ -206,7 +206,7 @@ if [[ -d /usr/local/go ]]; then
 fi
 
 # Our preferred go version
-GOVERS=1.18
+# GOVERS=1.19
 
 # GOPATH
 if [[ -z ${GOROOT:-} ]]; then
@@ -223,6 +223,7 @@ else
   export PATH="${GOROOT}/bin:$PATH"
 fi
 
+export PATH="${HOME}/go/bin:${PATH}"
 
 case "$UNAME" in
   Darwin )
@@ -245,6 +246,10 @@ if type kubectl > /dev/null; then
 fi
 alias k=kubectl
 
+function json2yaml {
+  python -c 'import sys, yaml, json; print(yaml.dump(json.loads(sys.stdin.read())))'
+}
+
 if [[ -d "${HOME}/.krew/bin" ]]; then
   export PATH="${HOME}/.krew/bin:${PATH}"
 fi
@@ -252,7 +257,7 @@ fi
 # Pyenv
 if [[ -d "${HOME}/.pyenv" ]]; then
   export PYENV_ROOT="$HOME/.pyenv"
-  export PATH="$PYENV_ROOT/shims:$PATH"
+  export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
   # pyenv init
   if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"

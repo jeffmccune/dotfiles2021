@@ -1,6 +1,7 @@
 [user]
   name = Jeff McCune
   email = jeff@openinfrastructure.co
+	signingkey = 56A6DFE4EE44F83F
 [color]
   ui = auto
   interactive = auto
@@ -23,6 +24,7 @@
   autocrlf = false
   safecrlf = true
   pager = less -XF
+	excludesfile = /home/jeff/.gitignore
 [merge]
   log = true
 [push]
@@ -36,3 +38,5 @@
 [bash]
 	showUntrackedFiles = false
 	showDirtyState = false
+[commit]
+	gpgsign = true
