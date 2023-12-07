@@ -1,0 +1,10 @@
+#! /usr/bin/env python3
+
+import bcrypt
+import sys
+
+for arg in sys.argv[1:]:
+  password = arg.encode('utf-8')
+  salt = bcrypt.gensalt(rounds=12)
+  hashed_password = bcrypt.hashpw(password, salt)
+  print(hashed_password.decode('utf-8'))

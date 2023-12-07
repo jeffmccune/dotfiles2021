@@ -1,0 +1,10 @@
+#! /usr/bin/env python3
+
+from pathlib import Path
+import json
+import os
+
+p = Path(os.getenv("HOME")) / ".docker/config.json"
+d = json.loads(p.read_text())
+m = {".dockerconfigjson": json.dumps(d)}
+print(json.dumps(m))
