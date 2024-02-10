@@ -153,7 +153,7 @@ alias kns='kubectl config set-context --current --namespace'
 # Holos
 alias hi="pushd ~/workspace/holos-run/holos-infra"
 alias hs="pushd ~/workspace/holos-run/holos-server"
-alias hc="pushd ~/workspace/holos-run/go-holos"
+alias hc="pushd ~/workspace/holos-run/holos"
 
 # Vim
 if type nvim > /dev/null; then
