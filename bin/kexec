@@ -1,0 +1,6 @@
+#! /bin/bash
+#
+set -euo pipefail
+pod="$(kubectl get pods -l app=${1:-holos-server} --output=jsonpath={.items..metadata.name})"
+[[ -n $pod ]] || (echo "could not get pod name from label" >&2; exit 1)
+kubectl exec $pod -it -- sh

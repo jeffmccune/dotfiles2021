@@ -48,6 +48,11 @@ if [[ -d "${HOME}/.local/bin" ]]; then
   export PATH="${HOME}/.local/bin:${PATH}"
 fi
 
+if [[ -d "${HOME}/.npm-packages" ]]; then
+  export PATH="${HOME}/.npm-packages/bin:${PATH}"
+  # source <(ng completion script)
+fi
+
 # nvim.appimage --appimage-extract
 # ~/apps/ is a syncthing directory on development environment instances
 if [[ -d "${HOME}/apps/${UNAME}/${ARCH}" ]]; then
@@ -140,10 +145,15 @@ alias tmux='TERM=xterm-256color tmux'
 # Zulu time useful for gcloud logging read
 alias zulu='date -u +%FT%TZ'
 
-# Kubectl aliases
+# Kubernetes aliases
 alias k='kubectl'
 alias v='vault'
 alias kns='kubectl config set-context --current --namespace'
+
+# Holos
+alias hi="pushd ~/workspace/holos-run/holos-infra"
+alias hs="pushd ~/workspace/holos-run/holos-server"
+alias hc="pushd ~/workspace/holos-run/go-holos"
 
 # Vim
 if type nvim > /dev/null; then
@@ -176,13 +186,6 @@ function ssh_auth_sock() {
       SSH_AUTH_SOCK="${new_ssh_auth_sock}"
     fi
   fi
-}
-
-# Grab the current git branch we're on
-function git_branch() {
-  local ref=$(git symbolic-ref HEAD 2> /dev/null)
-  local branch=${ref#refs/heads/}
-  echo $branch
 }
 
 ### Direnv
@@ -277,6 +280,11 @@ unfunction try_source
 # Disable gitstatusd computation of unstaged, untracked and conflicted changes
 # https://github.com/romkatv/powerlevel10k/issues/246#issuecomment-860272520
 POWERLEVEL9K_VCS_MAX_INDEX_SIZE_DIRTY=0
+
+# https://github.com/jeffmccune/scripts
+if [[ -d "${HOME}/scripts" ]]; then
+  export PATH="${HOME}/scripts:${PATH}"
+fi
 
 # Make sure 0 is in $? at the end of zshrc.
 true

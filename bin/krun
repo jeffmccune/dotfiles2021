@@ -1,0 +1,16 @@
+#! /bin/bash
+#
+# Runs a command on pods by label
+
+set -euo pipefail
+
+name="$1"
+shift
+
+if [[ $# -eq 0 ]]; then
+  echo "nothing to do, add a command to run after the label" >&2
+  exit 1
+fi
+
+kubectl get pods -l app.kubernetes.io/name="$name" '--output=jsonpath={range .items[*]}{.metadata.name}{"\n"}{end}' \
+  | xargs -I% kubectl exec -i % -- "$@"

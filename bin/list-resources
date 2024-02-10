@@ -1,0 +1,2 @@
+#! /bin/bash
+exec yq '. | pick(["kind", "metadata"]) as $i | {"kind": $i.kind, "name":$i.metadata.name, "namespace": $i.metadata.namespace}'

@@ -1,0 +1,11 @@
+#! /bin/bash
+#
+# Runs a command on pods by label
+
+set -euo pipefail
+
+name="$1"
+shift
+
+kubectl get pods -l app.kubernetes.io/name="$name" '--output=jsonpath={range .items[*]}{.metadata.name}{"\n"}{end}' \
+  | xargs -I% kubectl "$@" %

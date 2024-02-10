@@ -1,18 +1,33 @@
 #! /bin/bash
 #
 set -euo pipefail
-
 tmpdir="$(mktemp -d)"
 finish() {
   rm -rf "$tmpdir"
 }
 trap finish EXIT
 
-issue="$(git rev-parse --abbrev-ref HEAD | tr -d -c 0-9)"
+issue=""
+
+while [[ $# -gt 0 ]]; do
+  if [[ $1 == '--' ]]; then
+    shift
+    break
+  fi
+  issue="$1"
+  shift
+done
+
 if [[ -z $issue ]]; then
+  issue="$(git rev-parse --abbrev-ref HEAD | tr -d -c 0-9)"
+fi
+
+re='^[0-9]+$'
+if ! [[ $issue =~ $re ]]; then
   echo "could not extract issue number from branch name" >&2
   exit 1
 fi
+
 title="$(gh issue view $issue --json title | jq --exit-status -r .title)"
 
-git commit --edit -m "(#${issue}) $title"
+git commit --edit -m "(#${issue}) $title" "$@"
